@@ -4,18 +4,22 @@ import CityForecast from '../presentational/CityForecast';
 
 export class ForecastsContainer extends Component {
   render() {
-    const { loading, forecastsArr } = this.props;
+    const { loading, citiesArr } = this.props;
     
     if( loading ){
       return(
-        <h3>Loading...</h3>
+        <h3>Kraunasi...</h3>
       )
     }
-    if( forecastsArr.length!==0 ){
+    if( citiesArr.length!==0 ){
       return(
         <div>
-        {forecastsArr.map(forecast=>(
-        <CityForecast key={forecast.city.id} forecast={forecast} />
+        {citiesArr.map(city=>(
+        <CityForecast 
+        key={city.id} 
+        name={city.name}
+        days = {city.days}
+        />
           ))
         }
         </div>
@@ -30,7 +34,7 @@ export class ForecastsContainer extends Component {
 }
 const mapStateToProps = state =>({
   loading: state.loading,
-  forecastsArr: state.forecastsArr
+  citiesArr: state.citiesArr
 })
 
 export default connect(mapStateToProps, null)(ForecastsContainer);

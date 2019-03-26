@@ -2,7 +2,7 @@ import {GET_FORECAST, FORECAST_FETCH_SUCCESS, FORECAST_FETCH_FAIL} from '../acti
 
 const initialState={
   loading: false,
-  forecastsArr:[]
+  citiesArr:[]
 }
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading:false,
-        forecastsArr: [...state.forecastsArr, action.payload]
+        citiesArr: [...state.citiesArr, action.payload]
     }
     default:
       return state
