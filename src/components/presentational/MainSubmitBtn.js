@@ -6,7 +6,7 @@ export default function MainSubmitBtn({onSubmit}) {
   return (
     <div>
       <InputGroupAddon addonType="append">
-          <Button color='primary' onClick={onSubmit}>Search</Button>
+          <Button color='primary' onClick={onSubmit}>Ieškoti</Button>
         </InputGroupAddon>
     </div>
   )

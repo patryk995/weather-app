@@ -1,7 +1,14 @@
-import {GET_FORECAST, FORECAST_FETCH_SUCCESS, FORECAST_FETCH_FAIL} from '../actions/types'
+import {GET_FORECAST, 
+  FORECAST_FETCH_SUCCESS, 
+  FORECAST_FETCH_FAIL, 
+  SAVE_CITY_FORECAST,
+  DELETE_CITY_FORECAST
+} from '../actions/types'
 
 const initialState={
   loading: false,
+  loaded:false,
+  city: null,
   citiesArr:[]
 }
 export default function(state = initialState, action) {
@@ -9,7 +16,8 @@ export default function(state = initialState, action) {
     case GET_FORECAST:
       return {
         ...state,
-        loading: true
+        loading: true,
+        loaded:false
       }
     case FORECAST_FETCH_FAIL:
       return {
@@ -21,8 +29,24 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading:false,
-        citiesArr: [...state.citiesArr, action.payload]
+        loaded:true,
+        city: action.payload
     }
+    case SAVE_CITY_FORECAST:
+      return{
+        ...state,
+        citiesArr:[state.city, ...state.citiesArr],
+        loaded:false,
+        city: null
+      }
+    case DELETE_CITY_FORECAST:
+      console.log(action.payload)
+      return{
+        ...state,
+        citiesArr: state.citiesArr.filter(city=>{
+          return city.id !== action.payload
+        })
+      }
     default:
       return state
   }

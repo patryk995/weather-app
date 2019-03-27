@@ -19,10 +19,15 @@ function* fetchWeather(action) {
   // console.log("Fetch Started!")
   const city = action.payload;
   const responseData = yield fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=${API_KEY}&units=metric&lang=lt`).then(responseData => responseData.json());
-  console.log(responseData);
-  // create 
-  
-  put({ type: "FORECAST_FETCH_SUCCESS", payload: responseData});
+  // sort list of hours into days
+  const sortedDays = splitToDays(responseData.list);
+  // create city object for storage with needed data only
+  const cityObj= {
+    name: responseData.city.name,
+    id: responseData.city.id,
+    days: sortedDays,
+  }
+  yield put({ type: "FORECAST_FETCH_SUCCESS", payload: cityObj});
   
   // console.log("Fetch Finished!")
 
@@ -30,13 +35,13 @@ function* fetchWeather(action) {
 
 const splitToDays = (arr) => {
   let i=0, output = [], currArr = [];
-  // set of codes of weather will be used to combine day icon
-  var weatherSet= new Set();
+  // weathers that appear during day
+  let weatherList= [];
   
   arr.forEach(element => {
-    weatherSet.add(element.weather[0].main)
     // take hour to know when next day begins AND date to find day of a week
     const [date, hour] = element.dt_txt.split(" ");
+    weatherList.push(element.weather[0].main);
     currArr.push(element);
     i++;
     if (i === arr.length || hour ==="21:00:00") {
@@ -49,26 +54,32 @@ const splitToDays = (arr) => {
       // remove year from date
       const dateMD= date.slice(5);
       // converting set into array for storing
-      const weatherSetFinal = [...weatherSet]
-      console.log(weatherSetFinal)
+      const weatherFinal = findMostFrequentWeather(weatherList);
+      console.log(weatherList)
+      console.log(weatherFinal)
       // create object of day with all data
       const dayObject ={
         date: dateMD,
         day: dayOfWeekString,
         maxTemp: maxDayTemp,
         minTemp: minDayTemp,
-        weatherSet: weatherSetFinal,
+        weather: weatherFinal,
         hours: currArr,
       }
 
       output.push(dayObject);
       currArr = [];
-      weatherSet.clear();
+      weatherList=[];
       }
   });
    return output;
 }
-
+function findMostFrequentWeather(arr){
+  return arr.sort((a,b) =>
+          arr.filter(v => v===a).length
+        - arr.filter(v => v===b).length
+    ).pop();
+}
 
 
 function* watchGetWeather() {

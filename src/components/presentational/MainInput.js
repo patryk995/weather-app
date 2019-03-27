@@ -4,7 +4,7 @@ import {Input} from 'reactstrap';
 
 const MainInput = ({ value, handleChange, onKeyPress }) => (
     <Input
-      placeholder="Type city title..."
+      placeholder="Įveskite miesto pavadinimą..."
       type="text"
       id="mainInput"
       value={value}
