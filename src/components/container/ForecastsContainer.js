@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Container, Row} from 'reactstrap';
 import CityForecast from '../presentational/CityForecast';
 import LoadingSpinner from '../presentational/LoadingSpinner';
-import {saveCity, deleteCity} from '../../actions'
+import {saveCity, deleteCity} from '../../actions/forecastActions'
 export class ForecastsContainer extends Component {
   onSave = () =>{
     this.props.saveCity()

@@ -6,6 +6,9 @@ function* loadMock() {
   console.log(responseDataMock);
   // sort list of hours into days
   const sortedDays = splitToDays(responseDataMock.list);
+  var newDate = new Date();
+  // var datetime = "LastSync: " + newDate.today() + " @ " + newDate.timeNow();
+  console.log(Date.now())
   // create city object for storage with needed data only
   const cityObj= {
     name: responseDataMock.city.name,

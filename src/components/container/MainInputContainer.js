@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import MainInput from "../presentational/MainInput";
 import MainSubmitBtn from '../presentational/MainSubmitBtn';
 
-import {getWeather} from '../../actions';
+import {getWeather} from '../../actions/forecastActions';
 
 export class MainInputContainer extends Component {
   state = {
